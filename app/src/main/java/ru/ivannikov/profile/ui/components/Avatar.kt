@@ -13,14 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 /**
- * Composable-компонент круглого аватара пользователя.
+ * Круглый аватар с иконкой пользователя.
  *
  * @param modifier Модификатор оформления контейнера.
  * @author Иванников Сергей Сергеевич
- * @since 2026-09-03
  */
 @Composable
 fun Avatar(modifier: Modifier = Modifier) {
@@ -39,4 +39,11 @@ fun Avatar(modifier: Modifier = Modifier) {
             tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
     }
+}
+
+/** Предпросмотр аватара. */
+@Preview(showBackground = true)
+@Composable
+fun AvatarPreview() {
+    MaterialTheme { Avatar() }
 }

@@ -3,9 +3,15 @@ package ru.ivannikov.profile.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
@@ -34,17 +40,15 @@ import ru.ivannikov.profile.ui.components.Avatar
 import ru.ivannikov.profile.ui.components.ProfileInfo
 
 /**
- * Экран профиля пользователя, управляющий локальным состоянием элементов[cite: 1].
+ * Экран профиля с редактированием имени и статуса и локальным состоянием.
  *
- * @param modifier Модификатор контейнера[cite: 1].
+ * @param modifier Модификатор контейнера.
  * @author Иванников Сергей Сергеевич
- * @since 2026-09-03[cite: 1]
  */
 @Composable
 fun ProfileScreen(modifier: Modifier = Modifier) {
     val initialUser = remember { User() }
-
-    // Локальное состояние экрана[cite: 1]
+    var nameText by remember { mutableStateOf(initialUser.name) }
     var statusText by remember { mutableStateOf(initialUser.status) }
     var isSubscribed by remember { mutableStateOf(initialUser.isSubscribed) }
     var followerCount by remember { mutableIntStateOf(initialUser.followers) }
@@ -53,23 +57,29 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.safeDrawing)
+            .imePadding()
+            .verticalScroll(rememberScrollState())
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Avatar()
-
         ProfileInfo(
-            user = User(
-                name = initialUser.name,
-                surname = initialUser.surname,
+            user = initialUser.copy(
+                name = nameText,
                 status = statusText,
                 followers = followerCount,
                 isSubscribed = isSubscribed
             )
         )
-
-        // Поле динамического редактирования статуса[cite: 1]
+        OutlinedTextField(
+            value = nameText,
+            onValueChange = { nameText = it },
+            label = { Text("Редактировать имя") },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
+        )
         OutlinedTextField(
             value = statusText,
             onValueChange = { statusText = it },
@@ -77,10 +87,7 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
-
         HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
-
-        // Кнопки подписки и сброса[cite: 1]
         ActionButtons(
             isSubscribed = isSubscribed,
             onSubscribeClick = {
@@ -88,22 +95,19 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                 followerCount += if (isSubscribed) 1 else -1
             },
             onResetClick = {
+                nameText = initialUser.name
                 statusText = initialUser.status
                 isSubscribed = initialUser.isSubscribed
                 followerCount = initialUser.followers
                 likesCount = 0
             }
         )
-
-        // Интерактивный счетчик лайков[cite: 1]
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -119,7 +123,6 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                         color = MaterialTheme.colorScheme.outline
                     )
                 }
-
                 FilledIconButton(onClick = { likesCount++ }) {
                     Icon(imageVector = Icons.Default.Add, contentDescription = "Поставить лайк")
                 }
@@ -128,13 +131,9 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
     }
 }
 
-/**
- * Предпросмотр экрана профиля в Android Studio[cite: 1].
- */
+/** Предпросмотр полного экрана профиля. */
 @Preview(showBackground = true)
 @Composable
 fun ProfileScreenPreview() {
-    MaterialTheme {
-        ProfileScreen()
-    }
+    MaterialTheme { ProfileScreen() }
 }

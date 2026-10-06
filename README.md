@@ -1,25 +1,139 @@
-# Profile App — Лабораторная работа №3
+<div align="center">
 
-Интерактивное мобильное приложение с экраном профиля пользователя на базе Jetpack Compose. В проекте реализовано реактивное управление состоянием, модульная архитектура UI-компонентов и валидация пользовательских действий.
+# Profile App
+### Программирование мобильных устройств · Лабораторная работа №3
 
-## Скриншот экрана
-![Экран профиля](screenshots/profile_screen.png)
+Jetpack Compose · Material 3 · Состояние и рекомпозиция
 
-## Стек технологий
-- **Язык разработки:** Kotlin
-- **UI-фреймворк:** Jetpack Compose (Material 3)
-- **Среда разработки:** Android Studio
-- **Минимальная версия Android:** API 24 (Android 7.0)
+Экран профиля: редактирование имени и статуса, подписка, счётчик и сброс.
 
-## Структура проекта
-- `app/src/main/java/ru/ivannikov/profile/MainActivity.kt` — точка входа Activity.
-- `app/src/main/java/ru/ivannikov/profile/data/User.kt` — data class модели пользователя.
-- `app/src/main/java/ru/ivannikov/profile/ui/ProfileScreen.kt` — главный экран и управление состоянием (remember, mutableStateOf).
-- `app/src/main/java/ru/ivannikov/profile/ui/components/Avatar.kt` — компонент круглого аватара.
-- `app/src/main/java/ru/ivannikov/profile/ui/components/ProfileInfo.kt` — текстовый блок информации о пользователе.
-- `app/src/main/java/ru/ivannikov/profile/ui/components/ActionButtons.kt` — кнопки подписки и сброса.
+[Паспорт](#passport) · [Скриншоты](#screenshots) · [Возможности](#features) · [Запуск](#run) · [Отчёт](REPORT.md)
 
-## Инструкция по сборке и запуску
-1. Склонируйте репозиторий:
-   ```bash
-   git clone [https://github.com/akkariq/android-compose-profile.git](https://github.com/akkariq/android-compose-profile.git)
+</div>
+
+---
+
+<a id="passport"></a>
+## Программирование мобильных устройств — паспорт
+
+| Поле | Значение |
+|:---|:---|
+| Университет | Северо-Кавказский федеральный университет |
+| Дисциплина | Программирование мобильных устройств |
+| Работа | №3 — Пользовательский интерфейс в Jetpack Compose. Базовые компоненты |
+| Студент | Иванников Сергей Сергеевич |
+| Группа / подгруппа | ПИН-б-о-24-1 / 2 |
+| Преподаватель | Щеголев Алексей Алексеевич |
+| Дата | 06.10.2026 |
+
+<a id="screenshots"></a>
+## Программирование мобильных устройств — скриншоты
+
+<div align="center">
+<img src="screenshots/1.png" alt="Скриншот приложения 1" width="320">
+<img src="screenshots/2.png" alt="Скриншот приложения 2" width="320">
+</div>
+
+<a id="features"></a>
+## Программирование мобильных устройств — возможности
+
+| Элемент | Поведение |
+|:---|:---|
+| Аватар | Круглая иконка, размер 120 dp, фон и рамка |
+| Информация | Имя, фамилия, статус и число подписчиков |
+| Редактирование имени | Ввод сразу обновляет имя в профиле |
+| Редактирование статуса | Ввод сразу обновляет текст статуса |
+| Подписка | «Подписаться» ↔ «Отписаться»; число подписчиков меняется на 1 |
+| Счётчик | Кнопка «+» увеличивает число отметок «Нравится» |
+| Сброс | Восстанавливает имя, статус, подписку, подписчиков и счётчик |
+| Разметка | Системные отступы, вертикальная прокрутка и отступ для клавиатуры |
+| Предпросмотр | Экран и отдельные Avatar, ProfileInfo, ActionButtons |
+
+Состояние хранится локально в `ProfileScreen` через `remember`, `mutableStateOf` и `mutableIntStateOf`. Оно сохраняется при рекомпозициях, но не заявляется как сохраняемое при пересоздании Activity. ViewModel, база данных и сеть в этой работе не используются.
+
+## Программирование мобильных устройств — стек
+
+| Компонент | Конфигурация проекта |
+|:---|:---|
+| Язык / Compose compiler plugin | Kotlin / 2.2.10 |
+| Интерфейс | Jetpack Compose, Material 3 |
+| Compose BOM | 2026.02.01 |
+| Android Gradle Plugin | 9.2.1 |
+| Gradle Wrapper | 9.4.1 |
+| JVM toolchain | 21 |
+| SDK | min 24; compile и target 37 |
+| Application ID | `ru.ivannikov.profile` |
+
+<a id="run"></a>
+## Программирование мобильных устройств — запуск
+
+```bash
+git clone https://github.com/akkariq/android-compose-profile.git
+cd android-compose-profile
+```
+
+1. Откройте корневую папку в Android Studio.
+2. Дождитесь синхронизации Gradle и установки SDK-компонентов согласно `app/build.gradle.kts`.
+3. Используйте JVM toolchain 21, указанный в конфигурации проекта.
+4. Выберите эмулятор или устройство с Android API 24 и выше.
+5. Запустите конфигурацию `app` кнопкой Run.
+
+### Сборка в Windows PowerShell
+
+```powershell
+.\gradlew.bat :app:assembleDebug
+```
+
+### Сборка в Linux / macOS
+
+```bash
+chmod +x gradlew
+./gradlew :app:assembleDebug
+```
+
+После успешной сборки APK находится в `app/build/outputs/apk/debug/app-debug.apk`.
+
+## Программирование мобильных устройств — проверка
+
+| Действие | Ожидаемый результат |
+|:---|:---|
+| Изменить имя | Заголовок профиля обновляется |
+| Изменить статус | Текст под именем обновляется |
+| Подписаться | Кнопка меняется на «Отписаться», подписчики 128 → 129 |
+| Отписаться | Кнопка возвращается, подписчики 129 → 128 |
+| Нажать «+» три раза | Счётчик показывает 3 |
+| Нажать «Сбросить» | Сергей, исходный статус, 128 подписчиков, без подписки, счётчик 0 |
+| Открыть клавиатуру | Поля и кнопки доступны через прокрутку |
+
+Сборка и проверка интерфейса после этих изменений здесь не выполнялись. Шаблонный тест `2 + 2` не является проверкой поведения экрана.
+
+## Программирование мобильных устройств — структура
+
+```text
+app/src/main/java/ru/ivannikov/profile/
+├── MainActivity.kt
+├── data/User.kt
+└── ui/
+    ├── ProfileScreen.kt
+    ├── components/
+    │   ├── Avatar.kt
+    │   ├── ProfileInfo.kt
+    │   └── ActionButtons.kt
+    └── theme/
+
+screenshots/
+├── 1.png
+└── 2.png
+README.md
+REPORT.md
+```
+
+## Программирование мобильных устройств — материалы
+
+- [Главный экран](app/src/main/java/ru/ivannikov/profile/ui/ProfileScreen.kt)
+- [UI-компоненты](app/src/main/java/ru/ivannikov/profile/ui/components)
+- [Отчёт и 10 вопросов методички](REPORT.md#questions)
+
+---
+
+Иванников Сергей Сергеевич · ПИН-б-о-24-1 · 2026

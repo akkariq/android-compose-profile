@@ -10,17 +10,17 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 /**
- * Блок кнопок управления профилем[cite: 1].
+ * Кнопки управления профилем без собственного состояния.
  *
- * @param isSubscribed Состояние подписки[cite: 1].
- * @param onSubscribeClick Обработчик нажатия на кнопку подписки[cite: 1].
- * @param onResetClick Обработчик сброса данных к значениям по умолчанию[cite: 1].
- * @param modifier Модификатор контейнера[cite: 1].
+ * @param isSubscribed Состояние подписки.
+ * @param onSubscribeClick Обработчик переключения подписки.
+ * @param onResetClick Обработчик сброса данных.
+ * @param modifier Модификатор контейнера.
  * @author Иванников Сергей Сергеевич
- * @since 2026-09-03[cite: 1]
  */
 @Composable
 fun ActionButtons(
@@ -44,12 +44,20 @@ fun ActionButtons(
         ) {
             Text(text = if (isSubscribed) "Отписаться" else "Подписаться")
         }
-
         OutlinedButton(
             onClick = onResetClick,
             modifier = Modifier.weight(1f)
         ) {
             Text(text = "Сбросить")
         }
+    }
+}
+
+/** Предпросмотр кнопок до подписки. */
+@Preview(showBackground = true)
+@Composable
+fun ActionButtonsPreview() {
+    MaterialTheme {
+        ActionButtons(isSubscribed = false, onSubscribeClick = {}, onResetClick = {})
     }
 }
