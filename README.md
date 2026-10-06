@@ -29,10 +29,20 @@ Jetpack Compose · Material 3 · Состояние и рекомпозиция
 <a id="screenshots"></a>
 ## Программирование мобильных устройств — скриншоты
 
-<div align="center">
-<img src="screenshots/1.png" alt="Скриншот приложения 1" width="320">
-<img src="screenshots/2.png" alt="Скриншот приложения 2" width="320">
-</div>
+<table align="center">
+<tr>
+<th>Исходный профиль</th>
+<th>Подписка и счётчик</th>
+</tr>
+<tr>
+<td align="center" valign="top">
+<img src="https://raw.githubusercontent.com/akkariq/android-compose-profile/f246000d35f8aa79da49095a7da8e97caab99a51/screenshots/1.png" alt="Исходный профиль с полями имени, фамилии и статуса" height="600">
+</td>
+<td align="center" valign="top">
+<img src="https://raw.githubusercontent.com/akkariq/android-compose-profile/f246000d35f8aa79da49095a7da8e97caab99a51/screenshots/2.png" alt="Профиль после подписки и увеличения счётчика" height="600">
+</td>
+</tr>
+</table>
 
 <a id="features"></a>
 ## Программирование мобильных устройств — возможности
