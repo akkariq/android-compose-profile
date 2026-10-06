@@ -40,7 +40,7 @@ import ru.ivannikov.profile.ui.components.Avatar
 import ru.ivannikov.profile.ui.components.ProfileInfo
 
 /**
- * Экран профиля с редактированием имени и статуса и локальным состоянием.
+ * Экран профиля с редактированием имени, фамилии и статуса и локальным состоянием.
  *
  * @param modifier Модификатор контейнера.
  * @author Иванников Сергей Сергеевич
@@ -49,6 +49,7 @@ import ru.ivannikov.profile.ui.components.ProfileInfo
 fun ProfileScreen(modifier: Modifier = Modifier) {
     val initialUser = remember { User() }
     var nameText by remember { mutableStateOf(initialUser.name) }
+    var surnameText by remember { mutableStateOf(initialUser.surname) }
     var statusText by remember { mutableStateOf(initialUser.status) }
     var isSubscribed by remember { mutableStateOf(initialUser.isSubscribed) }
     var followerCount by remember { mutableIntStateOf(initialUser.followers) }
@@ -68,6 +69,7 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
         ProfileInfo(
             user = initialUser.copy(
                 name = nameText,
+                surname = surnameText,
                 status = statusText,
                 followers = followerCount,
                 isSubscribed = isSubscribed
@@ -77,6 +79,13 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
             value = nameText,
             onValueChange = { nameText = it },
             label = { Text("Редактировать имя") },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
+        )
+        OutlinedTextField(
+            value = surnameText,
+            onValueChange = { surnameText = it },
+            label = { Text("Редактировать фамилию") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
@@ -96,6 +105,7 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
             },
             onResetClick = {
                 nameText = initialUser.name
+                surnameText = initialUser.surname
                 statusText = initialUser.status
                 isSubscribed = initialUser.isSubscribed
                 followerCount = initialUser.followers
